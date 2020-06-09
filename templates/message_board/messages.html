@@ -1,0 +1,29 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+    this is messages
+    {% for ms in message %}
+        <li>{{ ms.text }}</li>
+    {% endfor %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if message.has_previous %}
+                <a href="?page={{ message.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ message.number }} of {{ message.paginator.num_pages }}.
+            </span>
+
+            {% if message.has_next %}
+                <a href="?page={{ message.next_page_number }}">next</a>
+            {% endif %}
+        </span>
+    </div>
+    <form action="{% url 'message_board:new_message'%}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button name="submit">留言</button>
+    </form>
+
+{% endblock content %}
